@@ -1,0 +1,23 @@
+# Java / Spring Boot
+target/
+build/
+.gradle/
+*.class
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Node / React
+node_modules/
+dist/
+
+# Env / secrets
+.env
+.env.*
+application-local.yml
+application-local.properties
+
+# OS
+.DS_Store
+Thumbs.db

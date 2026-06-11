@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: sensors-postgres
+    environment:
+      POSTGRES_DB: sensors-monitoring-service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - sensors-network
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: sensors-mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto_data:/mosquitto/data
+    networks:
+      - sensors-network
+
+  backend:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: sensors-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sensors-monitoring-service
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      MQTT_BROKER_URL: tcp://mosquitto:1883
+      ML_SERVICE_URL: http://host.docker.internal:8000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - mosquitto
+    networks:
+      - sensors-network
+
+
+volumes:
+  postgres_data:
+  mosquitto_data:
+
+networks:
+  sensors-network:
+    driver: bridge

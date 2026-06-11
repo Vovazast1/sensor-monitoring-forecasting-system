@@ -1,0 +1,1 @@
+ALTER TABLE rules ADD COLUMN IF NOT EXISTS threshold_direction VARCHAR(10) DEFAULT 'HIGH';

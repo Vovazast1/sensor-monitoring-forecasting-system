@@ -1,0 +1,1 @@
+-- No seed data. Devices and sensors are auto-provisioned via MQTT.
