@@ -16,7 +16,7 @@ public class FlywayConfig {
     
     @PostConstruct
     public void migrate() {
-        log.info("Cleaning database and running migrations...");
+        log.info("Cleaning databllkase and running migrations...");
         var flyway = org.flywaydb.core.Flyway.configure()
                 .dataSource(dataSource)
                 .cleanDisabled(false)
