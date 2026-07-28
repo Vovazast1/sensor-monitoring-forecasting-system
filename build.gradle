@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.bachelor'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.5-SNAPSHOT'
 description = 'sensors-monitoring-service'
 
 java {
